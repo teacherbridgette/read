@@ -8,9 +8,9 @@
         :root {
             --neon-yellow: #f0ff00;
             --hot-pink: #ff499e;
-            --electric-blue: #00f2ff;
-            /* Scale optimized for iPad touch targets */
-            --game-scale: 22vw; 
+            --electric-blue: #2a9d8f;
+            /* Increased scale for iPad visibility */
+            --game-scale: 38vh; 
         }
 
         body {
@@ -34,44 +34,39 @@
             z-index: -2;
         }
 
-        /* Banner at top for spacing */
-        .banner-space { height: 10vh; width: 100%; }
+        .banner-space { height: 15vh; width: 100%; }
 
-        .game-container {
-            flex: 1;
+        .game-area-bottom {
+            height: 85vh;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            justify-content: flex-start;
         }
 
-        /* Better Grid Layout: Centered and wrapping nicely */
         #game-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2vh;
             z-index: 1;
         }
 
         .box {
             width: var(--game-scale); 
-            height: calc(var(--game-scale) * 0.75);
-            border: 0.6vh solid var(--electric-blue);
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px); /* Cool frosted glass look */
+            height: calc(var(--game-scale) * 0.8);
+            border: 0.8vh solid var(--electric-blue);
+            border-radius: 4vh;
+            background-color: rgba(0,0,0,0.6);
+            background-image: url('box-design.gif');
+            background-size: cover;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        /* THE FULL SCREEN OVERLAY */
+        /* THE FULL SCREEN OVERLAY STYLE */
         .box.chosen {
             position: fixed;
             top: 0; left: 0;
@@ -79,26 +74,25 @@
             height: 100vh;
             border-radius: 0;
             border: none;
-            background: white !important;
+            background: white !important; /* The big white background */
             z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            animation: popIn 0.4s ease-out forwards;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
+            from { transform: scale(0); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
 
         .content-wrapper {
-            display: none; /* Hidden inside small boxes */
+            display: none;
             text-align: center;
         }
 
-        /* Only show content when box is chosen */
         .box.chosen .content-wrapper { 
             display: flex; 
             flex-direction: column;
@@ -106,60 +100,59 @@
         }
 
         .vocab-emoji {
-            font-size: 30vh;
-            margin: 0;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+            font-size: 25vh; /* Huge emoji */
+            margin-bottom: 2vh;
+            display: block;
         }
 
         .vocab-text {
-            font-size: 18vh;
+            display: block;
+            font-size: 15vh; /* Massive text */
             font-weight: 900;
-            color: #222;
+            color: #333;
             text-transform: uppercase;
-            margin: 10px 0 30px 0;
+            margin-bottom: 3vh;
+            letter-spacing: -2px;
         }
 
         .box-timer {
-            font-size: 10vh;
+            font-size: 8vh;
             color: white;
             background: var(--hot-pink);
-            width: 18vh;
-            height: 18vh;
-            line-height: 18vh;
+            width: 15vh;
+            height: 15vh;
+            line-height: 15vh;
             border-radius: 50%;
-            box-shadow: 0 15px 35px rgba(255, 73, 158, 0.5);
-            animation: bounce 1s infinite;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(255, 73, 158, 0.4);
+            animation: heartBeat 1s infinite;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        /* Active Shimmer Effect during selection */
         .box.shimmer {
             border-color: var(--neon-yellow);
-            box-shadow: 0 0 40px var(--neon-yellow);
-            transform: scale(1.1);
-            background: rgba(255, 255, 0, 0.2);
-            z-index: 2;
+            box-shadow: 0 0 5vh var(--neon-yellow);
+            transform: scale(1.05);
         }
 
         #start-btn {
-            margin-top: 40px;
-            padding: 25px 80px;
-            font-size: 40px;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--hot-pink), #ff00ff);
+            margin-top: 5vh;
+            padding: 3vh 12vw;
+            font-size: 6vh;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(45deg, var(--hot-pink), #ff00ff);
             color: white;
             border: none;
-            border-radius: 60px;
-            box-shadow: 0 10px 30px rgba(255, 73, 158, 0.6);
-            transition: transform 0.2s;
+            border-radius: 100px;
+            box-shadow: 0 0 4vh var(--hot-pink);
             z-index: 10;
         }
-
-        #start-btn:active { transform: scale(0.95); }
 
         #video-overlay {
             display: none;
@@ -180,7 +173,7 @@
 
     <div class="banner-space"></div>
 
-    <div class="game-container">
+    <div class="game-area-bottom">
         <div id="game-grid">
             <div class="box" id="box-0"><div class="content-wrapper"><span class="vocab-emoji">📖</span><span class="vocab-text">read</span><div class="box-timer">5</div></div></div>
             <div class="box" id="box-1"><div class="content-wrapper"><span class="vocab-emoji">✏️</span><span class="vocab-text">write</span><div class="box-timer">5</div></div></div>
@@ -190,8 +183,7 @@
             <div class="box" id="box-5"><div class="content-wrapper"><span class="vocab-emoji">🏊</span><span class="vocab-text">swim</span><div class="box-timer">5</div></div></div>
             <div class="box" id="box-6"><div class="content-wrapper"><span class="vocab-emoji">🦘</span><span class="vocab-text">jump</span><div class="box-timer">5</div></div></div>
         </div>
-        
-        <button id="start-btn" onclick="runSelectionCycle()">START PARTY!</button>
+        <button id="start-btn" onclick="runSelectionCycle()">START!</button>
     </div>
 
     <div id="video-overlay">
@@ -204,10 +196,11 @@
     <audio id="sfx-buzzer" src="buzzer.mp3"></audio>
 
     <script>
+        const goodJobVideo = "good-job.mp4";
         const boxes = document.querySelectorAll('.box');
-        const startBtn = document.getElementById('start-btn');
         const overlay = document.getElementById('video-overlay');
         const videoPlayer = document.getElementById('game-video');
+        const startBtn = document.getElementById('start-btn');
         
         const sfxShimmer = document.getElementById('sfx-shimmer');
         const sfxStop = document.getElementById('sfx-stop');
@@ -222,22 +215,21 @@
             });
             
             let count = 0;
-            let duration = 15 + Math.floor(Math.random() * 10);
-            sfxShimmer.play().catch(() => {});
+            let duration = 12 + Math.floor(Math.random() * 8);
+            sfxShimmer.play().catch(e => console.log("Audio play blocked"));
 
             const interval = setInterval(() => {
                 boxes.forEach(b => b.classList.remove('shimmer'));
-                const currentBox = boxes[count % boxes.length];
-                currentBox.classList.add('shimmer');
+                boxes[count % 7].classList.add('shimmer');
                 count++;
                 
                 if (count > duration) {
                     clearInterval(interval);
                     sfxShimmer.pause();
                     sfxShimmer.currentTime = 0;
-                    openBox(count % boxes.length);
+                    openBox(count % 7);
                 }
-            }, 130);
+            }, 150);
         }
 
         function openBox(index) {
@@ -258,23 +250,22 @@
                     clearInterval(countdown);
                     timerEl.innerText = "0";
                     sfxBuzzer.play();
-                    // Brief delay to see the "0" before video pops up
-                    setTimeout(() => {
-                        playGoodJob();
-                    }, 1200);
+                    setTimeout(playGoodJob, 1200);
                 }
             }, 1000);
         }
 
         function playGoodJob() {
             overlay.style.display = 'block';
-            videoPlayer.src = "good-job.mp4";
+            videoPlayer.src = goodJobVideo;
             videoPlayer.play();
 
             videoPlayer.onended = () => {
                 overlay.style.display = 'none';
                 startBtn.style.visibility = 'visible';
-                boxes.forEach(b => b.classList.remove('chosen', 'shimmer'));
+                boxes.forEach(b => {
+                    b.classList.remove('shimmer', 'chosen');
+                });
             };
         }
     </script>
