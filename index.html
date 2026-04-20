@@ -9,13 +9,14 @@
             --neon-yellow: #f0ff00;
             --hot-pink: #ff499e;
             --electric-blue: #2a9d8f;
-            --game-scale: 32vh; /* Made boxes bigger */
+            /* Increased scale for iPad visibility */
+            --game-scale: 38vh; 
         }
 
         body {
             background: #000;
             color: #fff;
-            font-family: 'Comic Sans MS', sans-serif;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
             margin: 0;
             padding: 0;
             height: 100vh;
@@ -33,51 +34,58 @@
             z-index: -2;
         }
 
-        .banner-space { height: 25vh; width: 100%; }
+        .banner-space { height: 15vh; width: 100%; }
 
         .game-area-bottom {
-            height: 75vh;
+            height: 85vh;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         #game-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 3vh;
+            gap: 2vh;
             z-index: 1;
         }
 
         .box {
             width: var(--game-scale); 
-            height: var(--game-scale);
+            height: calc(var(--game-scale) * 0.8);
             border: 0.8vh solid var(--electric-blue);
-            border-radius: 5vh;
-            background-size: cover;
-            background-position: center;
+            border-radius: 4vh;
+            background-color: rgba(0,0,0,0.6);
             background-image: url('box-design.gif');
-            background-color: rgba(0,0,0,0.4);
+            background-size: cover;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
         }
 
-        /* Centering the text box when chosen */
+        /* THE FULL SCREEN OVERLAY STYLE */
         .box.chosen {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1.8);
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+            border: none;
+            background: white !important; /* The big white background */
             z-index: 1000;
-            background-image: url('text.png') !important;
-            border: 1vh solid var(--neon-yellow);
-            box-shadow: 0 0 60px var(--neon-yellow);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         .content-wrapper {
@@ -85,29 +93,38 @@
             text-align: center;
         }
 
-        .box.chosen .content-wrapper { display: block; }
+        .box.chosen .content-wrapper { 
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .vocab-emoji {
+            font-size: 25vh; /* Huge emoji */
+            margin-bottom: 2vh;
+            display: block;
+        }
 
         .vocab-text {
             display: block;
-            font-size: 6vh;
-            font-weight: bold;
-            color: #000;
-            text-transform: lowercase;
-            margin-bottom: 0.5vh;
+            font-size: 15vh; /* Massive text */
+            font-weight: 900;
+            color: #333;
+            text-transform: uppercase;
+            margin-bottom: 3vh;
+            letter-spacing: -2px;
         }
 
-        /* Cute Bouncing Timer */
         .box-timer {
-            font-size: 5vh;
-            color: #ff499e;
-            font-weight: bold;
-            background: white;
-            width: 8vh;
-            height: 8vh;
-            line-height: 8vh;
+            font-size: 8vh;
+            color: white;
+            background: var(--hot-pink);
+            width: 15vh;
+            height: 15vh;
+            line-height: 15vh;
             border-radius: 50%;
             display: inline-block;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(255, 73, 158, 0.4);
             animation: heartBeat 1s infinite;
         }
 
@@ -119,17 +136,17 @@
 
         .box.shimmer {
             border-color: var(--neon-yellow);
-            box-shadow: 0 0 6vh var(--neon-yellow);
+            box-shadow: 0 0 5vh var(--neon-yellow);
+            transform: scale(1.05);
         }
 
         #start-btn {
-            margin-top: 4vh;
-            padding: 2.5vh 10vw;
-            font-size: 5vh;
-            font-family: 'Comic Sans MS', sans-serif;
-            font-weight: 700;
+            margin-top: 5vh;
+            padding: 3vh 12vw;
+            font-size: 6vh;
+            font-weight: bold;
             cursor: pointer;
-            background: linear-gradient(45deg, var(--hot-pink), var(--electric-blue));
+            background: linear-gradient(45deg, var(--hot-pink), #ff00ff);
             color: white;
             border: none;
             border-radius: 100px;
@@ -158,13 +175,13 @@
 
     <div class="game-area-bottom">
         <div id="game-grid">
-            <div class="box" id="box-0"><div class="content-wrapper"><span class="vocab-text">read</span><div class="box-timer">5</div></div></div>
-            <div class="box" id="box-1"><div class="content-wrapper"><span class="vocab-text">write</span><div class="box-timer">5</div></div></div>
-            <div class="box" id="box-2"><div class="content-wrapper"><span class="vocab-text">draw</span><div class="box-timer">5</div></div></div>
-            <div class="box" id="box-3"><div class="content-wrapper"><span class="vocab-text">sing</span><div class="box-timer">5</div></div></div>
-            <div class="box" id="box-4"><div class="content-wrapper"><span class="vocab-text">dance</span><div class="box-timer">5</div></div></div>
-            <div class="box" id="box-5"><div class="content-wrapper"><span class="vocab-text">swim</span><div class="box-timer">5</div></div></div>
-            <div class="box" id="box-6"><div class="content-wrapper"><span class="vocab-text">jump</span><div class="box-timer">5</div></div></div>
+            <div class="box" id="box-0"><div class="content-wrapper"><span class="vocab-emoji">📖</span><span class="vocab-text">read</span><div class="box-timer">5</div></div></div>
+            <div class="box" id="box-1"><div class="content-wrapper"><span class="vocab-emoji">✏️</span><span class="vocab-text">write</span><div class="box-timer">5</div></div></div>
+            <div class="box" id="box-2"><div class="content-wrapper"><span class="vocab-emoji">🎨</span><span class="vocab-text">draw</span><div class="box-timer">5</div></div></div>
+            <div class="box" id="box-3"><div class="content-wrapper"><span class="vocab-emoji">🎤</span><span class="vocab-text">sing</span><div class="box-timer">5</div></div></div>
+            <div class="box" id="box-4"><div class="content-wrapper"><span class="vocab-emoji">💃</span><span class="vocab-text">dance</span><div class="box-timer">5</div></div></div>
+            <div class="box" id="box-5"><div class="content-wrapper"><span class="vocab-emoji">🏊</span><span class="vocab-text">swim</span><div class="box-timer">5</div></div></div>
+            <div class="box" id="box-6"><div class="content-wrapper"><span class="vocab-emoji">🦘</span><span class="vocab-text">jump</span><div class="box-timer">5</div></div></div>
         </div>
         <button id="start-btn" onclick="runSelectionCycle()">START!</button>
     </div>
@@ -198,8 +215,8 @@
             });
             
             let count = 0;
-            let duration = 15 + Math.floor(Math.random() * 10);
-            sfxShimmer.play();
+            let duration = 12 + Math.floor(Math.random() * 8);
+            sfxShimmer.play().catch(e => console.log("Audio play blocked"));
 
             const interval = setInterval(() => {
                 boxes.forEach(b => b.classList.remove('shimmer'));
@@ -212,7 +229,7 @@
                     sfxShimmer.currentTime = 0;
                     openBox(count % 7);
                 }
-            }, 130);
+            }, 150);
         }
 
         function openBox(index) {
@@ -233,7 +250,7 @@
                     clearInterval(countdown);
                     timerEl.innerText = "0";
                     sfxBuzzer.play();
-                    setTimeout(playGoodJob, 1000);
+                    setTimeout(playGoodJob, 1200);
                 }
             }, 1000);
         }
